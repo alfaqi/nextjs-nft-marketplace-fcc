@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useMoralis, useWeb3Contract } from "react-moralis";
 import { Button } from "web3uikit";
 
-import file01 from "../constants/json/01.json";
+// import file01 from "../constants/json/01.json";
 import Image from "next/image";
 
 import listNfts from "../constants/json";
