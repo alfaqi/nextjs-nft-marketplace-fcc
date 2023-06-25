@@ -95,7 +95,11 @@ export default ({
             cancel it.
           </p>
           <div className="flex flex-col items-end gap-2 border-solid border-2 border-gray-400 rounded p-2 w-fit">
-            <div>#{tokenId}</div>
+            <div>
+              <b>
+                {tokenName} #{tokenId}
+              </b>
+            </div>
 
             {tokenImage ? (
               <Image
@@ -112,6 +116,7 @@ export default ({
               {ethers.utils.formatEther(price || "0")} ETH
             </div>
           </div>
+          <p className="p-1 text-lg">NFT Address: {nftAddress}</p>
           <Input
             label="Update listing price in L1 Currency (ETH)"
             name="New listing price"
