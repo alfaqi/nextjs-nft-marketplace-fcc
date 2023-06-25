@@ -1,22 +1,27 @@
 import { ethers } from "ethers";
 import { useEffect, useState } from "react";
 import { useMoralis, useWeb3Contract } from "react-moralis";
-import marketplaceAbi from "../constants/NftMarketplace.json";
+// import marketplaceAbi from "../constants/NftMarketplace.json";
 import nftAbi from "../constants/BasicNft.json";
-import { Card, useNotification } from "web3uikit";
+import { Card } from "web3uikit";
 import Image from "next/image";
 import UpdatingListingModal from "./UpdatingListingModal";
+import BuyItemModal from "./BuyItemModal";
 
 export default ({ marketplaceAddress, nftAddress, tokenId, seller, price }) => {
   const [tokenName, setTokenName] = useState("");
   const [tokenImage, setTokenImage] = useState("");
   const [tokenDescription, setTokenDescription] = useState("");
-  const [showModal, setShowModal] = useState(false);
+
+  const [showUpdatingModal, setShowUpdatingModal] = useState(false);
+  const [showBuyingModal, setShowBuyingModal] = useState(false);
 
   const { isWeb3Enabled, account } = useMoralis();
 
-  const hideModal = () => setShowModal(false);
-  const dispatch = useNotification();
+  const hideUpdatingModal = () => setShowUpdatingModal(false);
+  const hideBuyingModal = () => setShowBuyingModal(false);
+
+  // const dispatch = useNotification();
 
   const { runContractFunction: getTokenURI } = useWeb3Contract({
     abi: nftAbi,
@@ -25,20 +30,9 @@ export default ({ marketplaceAddress, nftAddress, tokenId, seller, price }) => {
     params: { tokenId: tokenId },
   });
 
-  const { runContractFunction: buyItem } = useWeb3Contract({
-    abi: marketplaceAbi,
-    contractAddress: marketplaceAddress,
-    functionName: "buyItem",
-    params: {
-      nftAddress: nftAddress,
-      tokenId: tokenId,
-    },
-    msgValue: price,
-  });
-
   async function updateUI() {
     const tokenURI = await getTokenURI();
-    console.log(tokenURI);
+    // console.log(tokenURI);
     if (tokenURI) {
       const tokenURIResponse = await (await fetch(tokenURI)).json();
 
@@ -51,29 +45,7 @@ export default ({ marketplaceAddress, nftAddress, tokenId, seller, price }) => {
   const formattedSellerAddress = isOwnedByUser ? "You" : seller;
 
   const handleCardClick = () => {
-    isOwnedByUser
-      ? setShowModal(true)
-      : buyItem({
-          onError: (error) => {
-            if (error.message.toLowerCase().includes("insufficient funds")) {
-              alert("Insufficient Funds");
-              console.log("Insufficient Funds");
-              return;
-            }
-          },
-          onSuccess: handleBuyItemSuccess,
-        });
-  };
-
-  const handleBuyItemSuccess = async (tx) => {
-    await tx.wait(1);
-    dispatch({
-      type: "success",
-      title: "Item Bought!",
-      message: "Item Bought!",
-      position: "topR",
-    });
-    updateUI();
+    isOwnedByUser ? setShowUpdatingModal(true) : setShowBuyingModal(true);
   };
 
   useEffect(() => {
@@ -92,8 +64,18 @@ export default ({ marketplaceAddress, nftAddress, tokenId, seller, price }) => {
             tokenImage={tokenImage}
             tokenName={tokenName}
             price={price}
-            isVisible={showModal}
-            onClose={hideModal}
+            isVisible={showUpdatingModal}
+            onClose={hideUpdatingModal}
+          />
+          <BuyItemModal
+            marketplaceAddress={marketplaceAddress}
+            nftAddress={nftAddress}
+            tokenId={tokenId}
+            tokenImage={tokenImage}
+            tokenName={tokenName}
+            price={price}
+            isVisible={showBuyingModal}
+            onClose={hideBuyingModal}
           />
           <Card
             title={tokenName}

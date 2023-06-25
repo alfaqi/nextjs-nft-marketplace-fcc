@@ -12,7 +12,9 @@ export default () => {
   const chainIdString = chainId ? parseInt(chainId).toString() : "31337";
   const marketplaceAddress = networkMapping[chainIdString].NftMarketplace[0];
 
+  const [tokenId, setTokenId] = useState("0");
   const [proceeds, setProceeds] = useState("0");
+
   const dispatch = useNotification();
   const { runContractFunction } = useWeb3Contract();
 
@@ -70,8 +72,8 @@ export default () => {
     await tx.wait(1);
     dispatch({
       type: "success",
-      message: "NFT listing",
-      title: "NFT listed",
+      message: "NFT Listed!",
+      title: "NFT Listing",
       position: "topR",
     });
   }
@@ -90,6 +92,7 @@ export default () => {
         getTokenId(data);
       },
     });
+    // setTokenId()
   }
 
   const getTokenId = async (data) => {
@@ -104,6 +107,7 @@ export default () => {
       onSuccess: console.log("Returned Token ID"),
     });
     console.log(tokenId);
+    setTokenId(tokenId);
   };
   const handleWithdrawSuccess = () => {
     dispatch({
@@ -172,6 +176,11 @@ export default () => {
               value: "",
               key: "nftAddress",
             },
+            // {
+            //   name: "Token ID",
+            //   type: "box",
+            //   value: Number(tokenId),
+            // },
           ]}
           title="Mint Your NFT!"
           id="Mint Form"
