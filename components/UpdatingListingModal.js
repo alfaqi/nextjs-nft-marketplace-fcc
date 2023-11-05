@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useWeb3Contract } from "react-moralis";
 import { Button, Illustration, Input, Modal, useNotification } from "web3uikit";
 import { ethers } from "ethers";
-import nftMarketplace from "../constants/nftMarketplace.json";
+import nftMarketplace from "../constants/NftMarketplace.json";
 import Image from "next/image";
 
 export default ({
