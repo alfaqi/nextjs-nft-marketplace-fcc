@@ -1,7 +1,7 @@
 import { ethers } from "ethers";
 import { useEffect, useState } from "react";
 import { useMoralis, useWeb3Contract } from "react-moralis";
-import marketplaceAbi from "../constants/NftMarketplace.json";
+import marketplaceAbi from "../constants/nftMarketplace.json";
 import nftAbi from "../constants/BasicNft.json";
 import { Card, useNotification } from "web3uikit";
 import Image from "next/image";

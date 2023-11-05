@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useMoralis, useWeb3Contract } from "react-moralis";
 import { Button, Form, useNotification } from "web3uikit";
-import marketplaceAbi from "../constants/NftMarketplace.json";
+import marketplaceAbi from "../constants/nftMarketplace.json";
 import networkMapping from "../constants/networkMapping.json";
 import nftAbi from "../constants/BasicNft.json";
 
