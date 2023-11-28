@@ -1,6 +1,6 @@
 # NFT Marketplace
 
-Live Dome [NFT Marketplace](https://nextjs-nft-marketplace-fcc-zeta.vercel.app/) (Goerli testnet)
+Live Demo [NFT Marketplace](https://nextjs-nft-marketplace-fcc-zeta.vercel.app/) (Goerli testnet)
 
 ## Overview
 
